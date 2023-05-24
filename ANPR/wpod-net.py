@@ -3,13 +3,14 @@ import numpy as np
 from keras.models import model_from_json
 from keras.preprocessing.image import ImageDataGenerator
 from skimage import transform
+import matplotlib.pyplot as plt
 
 # Load the trained model
-json_file = open('wpod-net.json', 'r')
+json_file = open('wpod-net\wpod-net.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
-model.load_weights('wpod-net.h5')
+model.load_weights('wpod-net\wpod-net.h5')
 
 # Define the plate detection function
 def detect_plate(image_path):
@@ -39,11 +40,12 @@ def detect_plate(image_path):
         plate_img = plate_img / 255.
         # Reshape the plate region to (1, 128, 128, 3)
         plate_img = plate_img.reshape((1, 128, 128, 3))
-        # Display the cropped plate image in a new window
-        # resized_plate_img = cv2.resize(plate_img, (256, 256))
-        cv2.imshow('Cropped Plate Image', plate_img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # Display the cropped plate image using Matplotlib
+        # resized_plate_img = cv2.resize(plate_img, (256, 256), interpolation=cv2.INTER_LINEAR)
+        plt.imshow(plate_img)
+        # plt.imshow(plate_img)
+        plt.axis('off')
+        plt.show()
 
 # Call the plate detection function
-detect_plate('germany_car_plate.jpg')
+detect_plate('Plate_examples\germany_car_plate.jpg')
